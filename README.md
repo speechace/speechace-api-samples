@@ -25,7 +25,7 @@ The API samples also include a very well written HTML5 recorder that seamlessly 
 Android mobile devices. 
 
 # Try the samples
-We have deployed one of the samples at https://www.speechace.co/api_samples
+We have deployed one of the samples at https://www.speechace.co/api_sample
 
 Please feel free to contribute to this repo via pull requests. We are happy to partner with you.
 
