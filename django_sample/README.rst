@@ -25,7 +25,7 @@ Quick run Django sample project
 
 3. Go to the spacejs folder of the django_sample folder in repository::
 
-    cd spacejs
+    cd speechace-api-samples/spacejs
 
 4. Run the following command::
 
@@ -47,7 +47,7 @@ Quick run Django sample project
 
 9. Go to project directory::
 
-    cd <speechace-api-samples repository/django_sample directory>
+    cd speechace-api-samples/django_sample
 
 10. Install requirement python packages::
 
@@ -71,35 +71,3 @@ Quick run Django sample project
 .. warning:: This example uses HTML5 for recording and therefore if you are not hosting the sample on localhost then you must use SSL to activate the recorder properly.
 
 |
-
-Score API
----------
-
-Base class Scorer::
-
-    from api.core.score import Scorer
-
-
-Takes three arguments:
-    * Api key - token to identify user, e.g. hJk56Sa4...Tr421M
-    * Api user id - user name, e.g. ielts
-    * Api include fluency - set to 1 for the IELTS/PTE score and other fluency metrics. Only available with API PRO offer
-
-Example::
-
-    scorer = Scorer(api_key='hJk56Sa4...Tr421M', api_user_id='ielts')
-
-|
-
-Methods of SpeechACE APIs
-`````````````````````````
-
-1. Scoring text speech takes three arguments:
-    * text - text of user speech
-    * audio_data - user speech record
-    * tokenized - default 0
-
-Example::
-
-    scorer.score_text_speech('sample text', audio_file, 0)
-
