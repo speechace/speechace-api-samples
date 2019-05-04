@@ -16,6 +16,8 @@ The API can be used to build a variety of pronunciation training and assessment 
 3. Estimating IELTS Speaking score and PTE Speaking score
 4. Speaking activities (e.g. Flashcards, fill in the blank, multiple choice)
 
+Detailed documentation on the API is available at https://docs.speechace.com
+
 The API is commercially available via www.speechace.com. Please visit the site and drop us a note using the
 Contact link to get an API key.
 
