@@ -25,7 +25,7 @@ Quick run Django sample project
 
 3. Go to the spacejs folder of the django_sample folder in repository::
 
-   cd spacejs
+    cd spacejs
 
 4. Run the following command::
 
