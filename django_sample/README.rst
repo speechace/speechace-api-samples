@@ -23,7 +23,9 @@ Quick run Django sample project
 
 2. Install `nodejs <https://nodejs.org/en/download/>`_ (the latest LTS version)
 
-3. Use Terminal to go to the spacejs folder of the django_sample folder in repository
+3. Go to the spacejs folder of the django_sample folder in repository::
+
+   cd spacejs
 
 4. Run the following command::
 
