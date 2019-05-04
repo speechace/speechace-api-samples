@@ -25,7 +25,7 @@ Quick run Django sample project
 
 3. Go to the spacejs folder of the django_sample folder in repository::
 
-    cd speechace-api-samples/spacejs
+    cd speechace-api-samples/django_sample/spacejs
 
 4. Run the following command::
 
@@ -45,7 +45,7 @@ Quick run Django sample project
 
     activate django_sample
 
-9. Go to project directory::
+9. Go to django_sample directory in repo::
 
     cd speechace-api-samples/django_sample
 
