@@ -22,7 +22,10 @@ The API is commercially available via www.speechace.com. Please visit the site a
 Contact link to get an API key.
 
 The API samples also include a very well written HTML5 recorder that seamlessly works on any browser including both iOS and
-Android mobile devices. One instance of the sample is also hosted at https://www.speechace.co/api_samples
+Android mobile devices. 
+
+# Try the samples
+We have deployed one of the samples at https://www.speechace.co/api_samples
 
 Please feel free to contribute to this repo via pull requests. We are happy to partner with you.
 
