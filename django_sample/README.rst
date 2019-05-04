@@ -53,9 +53,9 @@ Quick run Django sample project
 
      pip install -r requirements/local.txt
 
-11. Specify Scorer settings param SPEECHACE_API_KEY in core/settings.py
+11. Set SPEECHACE_API_KEY in core/settings.py. You can obtain a key by contacting the SpeechAce team at www.speechace.com
 
-12. If you have purchased the SpeechAce PRO plan then specify SPEECHACE_INCLUDE_FLUENCY as 1 in core/settings.py for IELTS/PTE scores and other fluency metrics.
+12. For getting fluency metrics and IELTS/PTE score, specify SPEECHACE_INCLUDE_FLUENCY=1 in core/settings.py. This feature is only available with PRO plan purchase.
 
 13. Collect static (you need to do it each time after compile the javascript)::
 
