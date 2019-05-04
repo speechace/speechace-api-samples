@@ -19,7 +19,7 @@ The API can be used to build a variety of pronunciation training and assessment 
 Detailed documentation on the API is available at https://docs.speechace.com
 
 The API is commercially available via www.speechace.com. Please visit the site and drop us a note using the
-Contact link to get an API key.
+Contact form to get an API key.
 
 The API samples also include a very well written HTML5 recorder that seamlessly works on any browser including both iOS and
 Android mobile devices. 
