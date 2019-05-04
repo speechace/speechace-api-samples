@@ -4,8 +4,8 @@ Django sample for SpeechAce API
 
 *This project is a Django sample for SpeechAce APIs.*
 
-Quick Start for SpeechAce API Django sample project
-```````````````````````````````````````````````````
+Quick Start
+```````````
 1. Clone the repository locally (e.g. using SourceTree or git command line tool)
 
 2. Install `nodejs <https://nodejs.org/en/download/>`_ (the latest LTS version)
