@@ -65,9 +65,5 @@ Quick run Django sample project
 
      python manage.py runserver
 
-
-|
-
-.. warning:: This example uses HTML5 for recording and therefore if you are not hosting the sample on localhost then you must use SSL to activate the recorder properly.
-
+15. This example uses HTML5 for recording and therefore you must HTTPS (SSL) while accessing the sample from non-localhost servers.
 |
