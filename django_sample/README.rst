@@ -2,19 +2,14 @@
 Django sample for SpeechAce API
 ===============================
 
-
 *This project is a Django sample for SpeechAce APIs.*
-
 |
-
-
 Installing
 ----------
-
 |
 
-Quick run Django sample project
-```````````````````````````````
+Quick Start for SpeechAce API Django sample project
+```````````````````````````````````````````````````
 
 |
 | Using this instruction you can fast run Django sample project locally
@@ -66,4 +61,5 @@ Quick run Django sample project
      python manage.py runserver
 
 15. This example uses HTML5 for recording and therefore you must HTTPS (SSL) while accessing the sample from non-localhost servers.
-|
+
+16. You can also try the sample at https://www.speechace.co/api_sample
