@@ -1,5 +1,5 @@
-SPEECHACE API USAGE
-===================
+Quick start
+===========
 
 This folder along with this readme file contains sample code and audio files
 to help you get started with the Speechace API.
