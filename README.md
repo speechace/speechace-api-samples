@@ -26,7 +26,7 @@ Contact form to get an API key.
 The API samples also include a very well written HTML5 recorder that seamlessly works on any browser including both iOS and
 Android mobile devices. 
 
-# Trying the samples
+# Sample demo
 We have deployed one of the samples at https://www.speechace.co/api_sample . Please feel free to try it out there.
 
 # Contributing
