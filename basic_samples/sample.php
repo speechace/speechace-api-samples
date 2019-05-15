@@ -7,7 +7,7 @@ $opts = array(
     CURLOPT_HTTPHEADER => array("Content-Type:multipart/form-data"),
     CURLOPT_POSTFIELDS => array(
         "text" => "apple",
-        "user_audio_file" => "@"."/home/username/apple.wav",
+        "user_audio_file" => curl_file_create("/home/username/apple.wav"),
     ),
     CURLOPT_RETURNTRANSFER => true
 );
