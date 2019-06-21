@@ -1,0 +1,8 @@
+# PHP Storm
+.idea
+
+src-js/node_modules
+src-js/package-lock.json
+src-js/webpack-stats.json
+
+src-js/public/sample
