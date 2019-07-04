@@ -49,7 +49,7 @@ class ProcessData extends GetData {
         $result_overall_metrics = array(
             "word_count" => 0,
             "syllable_count" => 0,
-            "phone_count" => 0
+            "phone_count" => 0,
         );
 
         $result_detailed = array(
@@ -59,17 +59,27 @@ class ProcessData extends GetData {
         return array("overall_metrics" => $result_overall_metrics, "detailed" => $result_detailed);
     }
 
+
     /**
      * @return array
      */
-    private function getOverallScore(){
-        if (isset($this->results["text_score"]["fluency"])) {
+    private function setFluency(){
+        $data = [];
+        if ($this->results["text_score"]["fluency"]) {
             $fluency = $this->results["text_score"]["fluency"];
             if ($fluency["overall_metrics"]) {
-                return ($fluency["overall_metrics"]["ielts_estimate"] != 'undefined') ? $fluency["overall_metrics"]["ielts_estimate"] * 10 : 0;
+                if(isset($fluency["overall_metrics"]["pte_score"])){
+                    $data["pte_score"] = $fluency["overall_metrics"]["pte_score"];
+                }
+                $data["audio_length"] = $fluency["overall_metrics"]["duration"];
+                $data["wcm"] = $fluency["overall_metrics"]["word_correct_per_minute"];
+                $data["pauses"] = $fluency["overall_metrics"]["all_pause_count"];
+                $data["pause_duration"] = $fluency["overall_metrics"]["all_pause_duration"];
+                $data["mlr"] = $fluency["overall_metrics"]["mean_length_run"];
+                $data["ielts_score"] = $fluency["overall_metrics"]["ielts_estimate"];
             }
         }
-        return 0;
+        return $data;
     }
 
     /**
@@ -139,7 +149,7 @@ class ProcessData extends GetData {
             $summary["phone_count"] = $phone_count;
         }
 
-        return array("overall_metrics" => $summary, "detailed" => $detailed, "overall_score" => (string)$overall_score);
+        return array("overall_metrics" => array_merge($summary, $this->setFluency()), "detailed" => $detailed, "overall_score" => (string)$overall_score);
     }
 
     /**
