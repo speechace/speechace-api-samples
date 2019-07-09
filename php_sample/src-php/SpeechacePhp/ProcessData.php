@@ -68,9 +68,7 @@ class ProcessData extends GetData {
         if ($this->results["text_score"]["fluency"]) {
             $fluency = $this->results["text_score"]["fluency"];
             if ($fluency["overall_metrics"]) {
-                if(isset($fluency["overall_metrics"]["pte_score"])){
-                    $data["pte_score"] = $fluency["overall_metrics"]["pte_score"];
-                }
+                $data["pte_score"] = $fluency["overall_metrics"]["pte_estimate"];
                 $data["audio_length"] = $fluency["overall_metrics"]["duration"];
                 $data["wcm"] = $fluency["overall_metrics"]["word_correct_per_minute"];
                 $data["pauses"] = $fluency["overall_metrics"]["all_pause_count"];
