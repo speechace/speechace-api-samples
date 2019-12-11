@@ -123,6 +123,7 @@ def process_row_scoring_result(row_result):
         if 'word_score_list' in text_score:
             word_score_list = text_score['word_score_list'] if type(text_score['word_score_list'] == list) else []
 
+        # try to get fidelity_class
         if 'fidelity_class' in text_score:
             fidelity_class = text_score['fidelity_class']
 
