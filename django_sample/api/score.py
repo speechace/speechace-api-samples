@@ -94,6 +94,7 @@ def process_row_scoring_result(row_result):
     score_overall_metrics = {}
     segment_metrics_list = []
     word_score_list = []
+    fidelity_class = None
 
     if 'status' in row_result:
         status = row_result['status']
@@ -122,6 +123,9 @@ def process_row_scoring_result(row_result):
         if 'word_score_list' in text_score:
             word_score_list = text_score['word_score_list'] if type(text_score['word_score_list'] == list) else []
 
+        if 'fidelity_class' in text_score:
+            fidelity_class = text_score['fidelity_class']
+
     # process score_overall_metrics to get overall metrics
     overall_metrics = process_score_overall_metrics(score_overall_metrics)
 
@@ -139,6 +143,7 @@ def process_row_scoring_result(row_result):
     # create score result response
     result['overall_score'] = overall_score
     result['overall_metrics'] = overall_metrics
+    result['fidelity_class'] = fidelity_class
     result['detailed'] = {
         'words': words,
         'syllables': syllables,
