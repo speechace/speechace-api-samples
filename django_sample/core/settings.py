@@ -114,7 +114,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'spacejs', 'public'),
 ]
 
-
 SPEECHACE_API_KEY = ''
 SPEECHACE_INCLUDE_FLUENCY = 1
 
