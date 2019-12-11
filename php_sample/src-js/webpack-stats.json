@@ -1,0 +1,15 @@
+{
+  "status": "done",
+  "chunks": {
+    "sample": [
+      {
+        "name": "sample.js",
+        "path": "/var/www/html/speechace-api-samples/php_sample/src-js/public/sample/build/sample.js"
+      },
+      {
+        "name": "sample.js.map",
+        "path": "/var/www/html/speechace-api-samples/php_sample/src-js/public/sample/build/sample.js.map"
+      }
+    ]
+  }
+}

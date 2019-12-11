@@ -139,7 +139,7 @@ class ProcessData extends GetData {
             $summary["phone_count"] = $phone_count;
         }
 
-        return array("overall_metrics" => $summary, "detailed" => $detailed, "overall_score" => (string)$overall_score);
+        return array("overall_metrics" => $summary, "detailed" => $detailed, "overall_score" => (string)$overall_score, "fidelity_class" => $this->results["text_score"]["fidelity_class"]);
     }
 
     /**
