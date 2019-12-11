@@ -62,14 +62,16 @@ class ProcessData extends GetData {
     /**
      * @return array
      */
-    private function getOverallScore(){
-        if (isset($this->results["text_score"]["fluency"])) {
-            $fluency = $this->results["text_score"]["fluency"];
-            if ($fluency["overall_metrics"]) {
-                return ($fluency["overall_metrics"]["ielts_estimate"] != 'undefined') ? $fluency["overall_metrics"]["ielts_estimate"] * 10 : 0;
-            }
-        }
-        return 0;
+    private function getSummary(){
+        $overallMetricsData = $this->results["text_score"]["fluency"]["overall_metrics"];
+        $overall_metrics["audio_length"] = $overallMetricsData["duration"];
+        $overall_metrics["ielts_score"] = $overallMetricsData["ielts_estimate"];
+        $overall_metrics["mlr"] = $overallMetricsData["mean_length_run"];
+        $overall_metrics["pause_duration"] = $overallMetricsData["all_pause_duration"];
+        $overall_metrics["pauses"] = $overallMetricsData["all_pause_count"];
+        $overall_metrics["pte_score"] = $overallMetricsData["pte_estimate"];
+        $overall_metrics["wcm"] = $overallMetricsData["word_correct_per_minute"];
+        return $overall_metrics;
     }
 
     /**
@@ -123,6 +125,7 @@ class ProcessData extends GetData {
 
         $overall_score = ceil($phone_total_score / $phone_count);
 
+        $summary = $this->getSummary();
         $summary["word_count"] = $word_count;
         $detailed["words"] = $words;
 
