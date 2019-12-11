@@ -1,25 +1,3 @@
-# The MIT License
-
-# Copyright 2019 SpeecAce LLC
-
-# Permission is hereby granted, free of charge, to any person obtaining a copy 
-# of this software and associated documentation files (the "Software"), to 
-# deal in the Software without restriction, including without limitation the 
-# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-# sell copies of the Software, and to permit persons to whom the Software is 
-# furnished to do so, subject to the following conditions:
-
-# The above copyright notice and this permission notice shall be included 
-# in all copies or substantial portions of the Software.
-
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
-# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-# IN THE SOFTWARE.
-
 import json
 from decimal import Decimal, ROUND_UP, ROUND_HALF_UP
 
@@ -94,6 +72,7 @@ def process_row_scoring_result(row_result):
     score_overall_metrics = {}
     segment_metrics_list = []
     word_score_list = []
+    fidelity_class = None
 
     if 'status' in row_result:
         status = row_result['status']
@@ -122,6 +101,10 @@ def process_row_scoring_result(row_result):
         if 'word_score_list' in text_score:
             word_score_list = text_score['word_score_list'] if type(text_score['word_score_list'] == list) else []
 
+        # try to get fidelity_class
+        if 'fidelity_class' in text_score:
+            fidelity_class = text_score['fidelity_class']
+
     # process score_overall_metrics to get overall metrics
     overall_metrics = process_score_overall_metrics(score_overall_metrics)
 
@@ -139,6 +122,7 @@ def process_row_scoring_result(row_result):
     # create score result response
     result['overall_score'] = overall_score
     result['overall_metrics'] = overall_metrics
+    result['fidelity_class'] = fidelity_class
     result['detailed'] = {
         'words': words,
         'syllables': syllables,

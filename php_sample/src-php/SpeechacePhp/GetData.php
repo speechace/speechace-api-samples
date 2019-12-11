@@ -5,9 +5,9 @@ namespace SpeechacePhp;
 class GetData {
 
     private $endpoint = "https://api.speechace.co/api/scoring/text/v0.2/json";
-    private $apikey = "<TYPE YOUR API KEY HERE>";
+    private $apikey = "khmrp6Yazhcch6eJ1v5JkhPoZc0E9QIRuw55%2BjBhxcc2dWg63NpN2MoQ5Puvo36W2fk7USbno%2BPSOhvhSVmqdNZUwO0xfTFNaViwVD70hcZnLoOgtTm5KWBYA%2B2Sz%2FVE";
     public $userId = "sptest";
-    public $includeFluency = 0;
+    public $includeFluency = 1;
     public $text, $file;
 
     public function __construct($text, $file) {

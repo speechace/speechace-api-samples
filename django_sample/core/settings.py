@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'asdnl*34234asdf*333442(*234'
+SECRET_KEY = 'r*n#di6ro0o(^^$nb+s-&f5@4#e!(q9j65pjjuh4o9(i0wv2ze'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', '34.199.108.77', 'yanpix.speechace.com', 'a80e5075.ngrok.io']
 
 
 # Application definition
@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'webpack_loader',
+
     'score_speech',
 ]
 
@@ -114,8 +116,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'spacejs', 'public'),
 ]
 
-SPEECHACE_API_KEY = ''
-SPEECHACE_INCLUDE_FLUENCY = 0
+SPEECHACE_API_KEY = 'khmrp6Yazhcch6eJ1v5JkhPoZc0E9QIRuw55%2BjBhxcc2dWg63NpN2MoQ5Puvo36W2fk7USbno%2BPSOhvhSVmqdNZUwO0xfTFNaViwVD70hcZnLoOgtTm5KWBYA%2B2Sz%2FVE'
+SPEECHACE_INCLUDE_FLUENCY = 1
 
 WEBPACK_LOADER = {
     'DEFAULT': {

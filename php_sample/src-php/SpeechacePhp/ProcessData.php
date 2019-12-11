@@ -1,22 +1,4 @@
 <?php
-/* The MIT License
-  Copyright 2019 SpeecAce LLC
-  Permission is hereby granted, free of charge, to any person obtaining a copy 
-  of this software and associated documentation files (the "Software"), to 
-  deal in the Software without restriction, including without limitation the 
-  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-  sell copies of the Software, and to permit persons to whom the Software is 
-  furnished to do so, subject to the following conditions:
-  The above copyright notice and this permission notice shall be included 
-  in all copies or substantial portions of the Software.
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
-  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-  IN THE SOFTWARE
-*/
 namespace SpeechacePhp;
 
 class ProcessData extends GetData {
@@ -49,7 +31,7 @@ class ProcessData extends GetData {
         $result_overall_metrics = array(
             "word_count" => 0,
             "syllable_count" => 0,
-            "phone_count" => 0,
+            "phone_count" => 0
         );
 
         $result_detailed = array(
@@ -59,25 +41,19 @@ class ProcessData extends GetData {
         return array("overall_metrics" => $result_overall_metrics, "detailed" => $result_detailed);
     }
 
-
     /**
      * @return array
      */
-    private function setFluency(){
-        $data = [];
-        if ($this->results["text_score"]["fluency"]) {
-            $fluency = $this->results["text_score"]["fluency"];
-            if ($fluency["overall_metrics"]) {
-                $data["pte_score"] = $fluency["overall_metrics"]["pte_estimate"];
-                $data["audio_length"] = $fluency["overall_metrics"]["duration"];
-                $data["wcm"] = $fluency["overall_metrics"]["word_correct_per_minute"];
-                $data["pauses"] = $fluency["overall_metrics"]["all_pause_count"];
-                $data["pause_duration"] = $fluency["overall_metrics"]["all_pause_duration"];
-                $data["mlr"] = $fluency["overall_metrics"]["mean_length_run"];
-                $data["ielts_score"] = $fluency["overall_metrics"]["ielts_estimate"];
-            }
-        }
-        return $data;
+    private function getSummary(){
+        $overallMetricsData = $this->results["text_score"]["fluency"]["overall_metrics"];
+        $overall_metrics["audio_length"] = $overallMetricsData["duration"];
+        $overall_metrics["ielts_score"] = $overallMetricsData["ielts_estimate"];
+        $overall_metrics["mlr"] = $overallMetricsData["mean_length_run"];
+        $overall_metrics["pause_duration"] = $overallMetricsData["all_pause_duration"];
+        $overall_metrics["pauses"] = $overallMetricsData["all_pause_count"];
+        $overall_metrics["pte_score"] = $overallMetricsData["pte_estimate"];
+        $overall_metrics["wcm"] = $overallMetricsData["word_correct_per_minute"];
+        return $overall_metrics;
     }
 
     /**
@@ -131,6 +107,7 @@ class ProcessData extends GetData {
 
         $overall_score = ceil($phone_total_score / $phone_count);
 
+        $summary = $this->getSummary();
         $summary["word_count"] = $word_count;
         $detailed["words"] = $words;
 
@@ -147,7 +124,7 @@ class ProcessData extends GetData {
             $summary["phone_count"] = $phone_count;
         }
 
-        return array("overall_metrics" => array_merge($summary, $this->setFluency()), "detailed" => $detailed, "overall_score" => (string)$overall_score);
+        return array("overall_metrics" => $summary, "detailed" => $detailed, "overall_score" => (string)$overall_score, "fidelity_class" => $this->results["text_score"]["fidelity_class"]);
     }
 
     /**
