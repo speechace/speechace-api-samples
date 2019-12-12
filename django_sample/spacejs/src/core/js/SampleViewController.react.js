@@ -80,14 +80,15 @@ class SampleViewController extends React.Component {
             let {
                 overall_metrics,
                 overall_score,
-                detailed
+                detailed,
+                fidelity_class
             } = this.state.sScoring.data;
             resultView = (
                 <SampleScoringResultView
                     notifyPlayClick={this.handlePlayClick.bind(this)}
                     audioBlob={this.state.audioBlob}
                     sPlaybackMap={this.state.sPlaybackMap}
-                    {...{ overall_metrics, overall_score, detailed }}
+                    {...{ overall_metrics, overall_score, detailed, fidelity_class }}
                 />
             );
         }
