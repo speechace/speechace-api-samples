@@ -27,7 +27,7 @@
     "uglifyjs-webpack-plugin": "^2.1.2",
     "webpack": "^4.30.0",
     "webpack-bundle-tracker": "^0.4.2-beta",
-    "webpack-cli": "^3.3.5",
+    "webpack-cli": "^3.3.1",
     "webpack-dev-server": "^2.9.7"
   },
   "dependencies": {
