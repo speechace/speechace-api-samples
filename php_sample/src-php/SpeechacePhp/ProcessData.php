@@ -49,7 +49,7 @@ class ProcessData extends GetData {
         $result_overall_metrics = array(
             "word_count" => 0,
             "syllable_count" => 0,
-            "phone_count" => 0
+            "phone_count" => 0,
         );
 
         $result_detailed = array(
@@ -58,6 +58,7 @@ class ProcessData extends GetData {
 
         return array("overall_metrics" => $result_overall_metrics, "detailed" => $result_detailed);
     }
+
 
     /**
      * @return array
