@@ -67,10 +67,10 @@ function SummaryExplanationView(props) {
         infoList.push("Pauses " + props.overall_metrics.pauses);
     }
     if (typeof props.overall_metrics.pause_duration !== "undefined") {
-        infoList.push("Pause duration " + props.overall_metrics.duration);
+        infoList.push("Pause duration " + props.overall_metrics.pause_duration);
     }
     if (typeof props.overall_metrics.mlr !== "undefined") {
-        infoList.push("MLR " + props.overall_metrics.mlr);
+        infoList.push("MLR " + props.overall_metrics.mlr.toFixed(2));
     }
     return <div className="summary-explanation">{infoList.join(" | ")}</div>;
 }
