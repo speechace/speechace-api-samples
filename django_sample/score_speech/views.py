@@ -61,6 +61,7 @@ class ScoringTextSpeechView(View):
         api_include_fluency = settings.SPEECHACE_INCLUDE_FLUENCY if hasattr(settings,
                                                                             'SPEECHACE_INCLUDE_FLUENCY') else 0
         api_root_url = 'https://api.speechace.co'
+        # api_root_url = 'https://dev.speechace.com'
         api_user_id = 'sptest'
 
         if not api_key:

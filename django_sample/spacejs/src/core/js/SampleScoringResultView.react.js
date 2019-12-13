@@ -67,10 +67,13 @@ function SummaryExplanationView(props) {
         infoList.push("Pauses " + props.overall_metrics.pauses);
     }
     if (typeof props.overall_metrics.pause_duration !== "undefined") {
-        infoList.push("Pause duration " + props.overall_metrics.duration);
+        infoList.push("Pause duration " + props.overall_metrics.pause_duration);
     }
     if (typeof props.overall_metrics.mlr !== "undefined") {
-        infoList.push("MLR " + props.overall_metrics.mlr);
+        infoList.push("MLR " + props.overall_metrics.mlr.toFixed(2));
+    }
+    if (typeof props.fidelity_class !== "undefined") {
+        infoList.push("Fidelity " + props.fidelity_class.split('_').join(' ').toLowerCase());
     }
     return <div className="summary-explanation">{infoList.join(" | ")}</div>;
 }
@@ -98,7 +101,7 @@ class SampleScoringResultView extends React.Component {
     };
 
     render() {
-        let { overall_score, overall_metrics, detailed } = this.props;
+        let { overall_score, overall_metrics, detailed, fidelity_class } = this.props;
         return (
             <div>
                 <h2>Summary</h2>
@@ -110,7 +113,7 @@ class SampleScoringResultView extends React.Component {
                         <SummaryMetricsView
                             {...{ overall_score, overall_metrics }}
                         />
-                        <SummaryExplanationView {...{ overall_metrics }} />
+                        <SummaryExplanationView {...{ overall_metrics, fidelity_class }} />
                     </div>
                 </div>
                 <h2>Detailed score breakup</h2>
