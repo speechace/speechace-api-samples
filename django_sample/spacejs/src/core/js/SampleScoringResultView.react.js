@@ -55,25 +55,31 @@ function SummaryExplanationView(props) {
     infoList.push("Word count " + props.overall_metrics.word_count);
     infoList.push("Syllable count " + props.overall_metrics.syllable_count);
     infoList.push("Phone count " + props.overall_metrics.phone_count);
-    if (typeof props.overall_metrics.audio_length !== "undefined") {
+    if (props.overall_metrics.audio_length) {
         infoList.push("Audio length " + props.overall_metrics.audio_length);
     }
-    if (typeof props.overall_metrics.wcm !== "undefined") {
+    if (props.overall_metrics.wcm) {
         infoList.push(
             "Words correct/min " + Math.trunc(props.overall_metrics.wcm)
         );
     }
-    if (typeof props.overall_metrics.pauses !== "undefined") {
+    if (props.overall_metrics.pauses) {
         infoList.push("Pauses " + props.overall_metrics.pauses);
     }
-    if (typeof props.overall_metrics.pause_duration !== "undefined") {
+    if (props.overall_metrics.pause_duration) {
         infoList.push("Pause duration " + props.overall_metrics.pause_duration);
     }
-    if (typeof props.overall_metrics.mlr !== "undefined") {
+    if (props.overall_metrics.mlr) {
         infoList.push("MLR " + props.overall_metrics.mlr.toFixed(2));
     }
-    if (typeof props.fidelity_class !== "undefined") {
-        infoList.push("Fidelity " + props.fidelity_class.split('_').join(' ').toLowerCase());
+    if (props.fidelity_class) {
+        infoList.push(
+            "Fidelity " +
+                props.fidelity_class
+                    .split("_")
+                    .join(" ")
+                    .toLowerCase()
+        );
     }
     return <div className="summary-explanation">{infoList.join(" | ")}</div>;
 }
