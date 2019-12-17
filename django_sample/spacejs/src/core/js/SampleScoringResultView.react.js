@@ -31,10 +31,10 @@ function SummaryMetricsView(props) {
     let optionalScoreText = null;
     if (props.overall_metrics) {
         let scoreList = [];
-        if (typeof props.overall_metrics.ielts_score !== "undefined") {
+        if (props.overall_metrics.ielts_score) {
             scoreList.push("IELTS score " + props.overall_metrics.ielts_score);
         }
-        if (typeof props.overall_metrics.pte_score !== "undefined") {
+        if (props.overall_metrics.pte_score) {
             scoreList.push("PTE score " + props.overall_metrics.pte_score);
         }
         if (scoreList.length) {
