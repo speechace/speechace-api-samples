@@ -169,7 +169,7 @@ class Scorer(object):
         return headers
 
     def _format_url(self, request_type, output_format):
-        version = 'v0.2' if request_type == 'scoring/text' else 'v0.1'
+        version = 'v0.5' if request_type == 'scoring/text' else 'v0.1'
         relative_url = "/api/%s/%s/%s?key=%s&user_id=%s&dialect=en-us" % (request_type, version, output_format,
                                                                           self.api_key, self.api_user_id,)
         return self.api_root_url + relative_url

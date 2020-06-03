@@ -4,7 +4,7 @@ namespace SpeechacePhp;
 
 class GetData {
 
-    private $endpoint = "https://api.speechace.co/api/scoring/text/v0.2/json";
+    private $endpoint = "https://api.speechace.co/api/scoring/text/v0.5/json";
     private $apikey = "<TYPE YOUR API KEY HERE>";
     public $userId = "sptest";
     public $includeFluency = 0;

@@ -1,5 +1,5 @@
 import requests
-url = "https://api.speechace.co/api/scoring/text/v0.1/json"
+url = "https://api.speechace.co/api/scoring/text/v0.5/json"
 key = "Insert_Your_key_here"
 dialect = "en-us"
 user_id = "81ozow"

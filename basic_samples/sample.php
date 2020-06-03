@@ -1,7 +1,7 @@
 <?php
 
 $key="Insert_Your_API_Key_here";
-$ch = curl_init("https://api.speechace.co/api/scoring/text/v0.1/json?user_id=1234&dialect=en-us&key=".$key);
+$ch = curl_init("https://api.speechace.co/api/scoring/text/v0.5/json?user_id=1234&dialect=en-us&key=".$key);
 $opts = array(
     CURLOPT_POST => 1,
     CURLOPT_HTTPHEADER => array("Content-Type:multipart/form-data"),
