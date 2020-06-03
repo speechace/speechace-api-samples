@@ -28,7 +28,7 @@
     "webpack": "^4.30.0",
     "webpack-bundle-tracker": "^0.4.2-beta",
     "webpack-cli": "^3.3.1",
-    "webpack-dev-server": "^2.9.7"
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
