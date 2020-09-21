@@ -18,9 +18,6 @@ The API can be used to build a variety of pronunciation training and assessment 
 
 Detailed documentation on the API is available at https://docs.speechace.com
 
-# Sample demo
-We have deployed one of the samples at https://www.speechace.co/api_sample . Please feel free to try it out there.
-
 # Getting an API key
 The API is commercially available via www.speechace.com. Please visit the site and drop us a note using the
 Contact form to get an API key.
