@@ -28,7 +28,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 
-from .forms import ScoringTextSpeechForm
+from .forms import ScoringTextSpeechForm, ScoringFreeSpeechForm
 from api import score as score_api
 
 
@@ -53,34 +53,46 @@ class CsrfTemplateView(TemplateView):
         return super().get(request, *args, **kwargs)
 
 
-class ScoringTextSpeechView(View):
+class ScoringSpeechView(View):
+    form_class = None
+    api_key = settings.SPEECHACE_API_KEY if hasattr(settings, 'SPEECHACE_API_KEY') else ''
+    api_include_fluency = settings.SPEECHACE_INCLUDE_FLUENCY if hasattr(settings,
+                                                                        'SPEECHACE_INCLUDE_FLUENCY') else 0
+    api_root_url = 'https://api.speechace.co'
+    api_user_id = 'sptest'
+
+    def get_score_data(self, request):
+        audio_data = request.FILES.get('audio_data')
+        tokenized = 0
+        return audio_data, tokenized
+
+    def get_scorer(self, request):
+        scorer = score_api.Scorer(
+                    api_key=self.api_key,
+                    api_user_id=self.api_user_id,
+                    api_include_fluency=self.api_include_fluency,
+                    api_root_url=self.api_root_url,
+                    client_ip=get_client_ip(request)
+                )
+        return scorer
+
+    def get_scorer_method(self, request):
+        scorer = self.get_scorer(request)
+        return scorer.score_text_speech
+
     def post(self, request):
         response = {}
         response_status = 200
-        api_key = settings.SPEECHACE_API_KEY if hasattr(settings, 'SPEECHACE_API_KEY') else ''
-        api_include_fluency = settings.SPEECHACE_INCLUDE_FLUENCY if hasattr(settings,
-                                                                            'SPEECHACE_INCLUDE_FLUENCY') else 0
-        api_root_url = 'https://api.speechace.co'
-        # api_root_url = 'https://dev.speechace.com'
-        api_user_id = 'sptest'
 
-        if not api_key:
+        if not self.api_key:
             response['errors'] = ['SpeechAce api key not specified', ]
             response_status = 400
         if response_status != 400:
-            scoring_form = ScoringTextSpeechForm(request.POST, request.FILES)
+            scoring_form = self.form_class(request.POST, request.FILES)
             if scoring_form.is_valid():
-                text = request.POST.get('text')
-                audio_data = request.FILES.get('audio_data')
-                tokenized = 0
-                scorer = score_api.Scorer(
-                    api_key=api_key,
-                    api_user_id=api_user_id,
-                    api_include_fluency=api_include_fluency,
-                    api_root_url=api_root_url,
-                    client_ip=get_client_ip(request)
-                )
-                response_status, response = scorer.score_text_speech(text, audio_data, tokenized)
+                score_data = self.get_score_data(request)
+                scorer_method = self.get_scorer_method(request)
+                response_status, response = scorer_method(*score_data)
             else:
                 errors = []
                 for key, value in scoring_form.errors.items():
@@ -91,4 +103,22 @@ class ScoringTextSpeechView(View):
         return JsonResponse(response, status=response_status)
 
 
+class ScoringTextSpeechView(ScoringSpeechView):
+    form_class = ScoringTextSpeechForm
+
+    def get_score_data(self, request):
+        text = request.POST.get('text')
+        audio_data, tokenized = super().get_score_data(request)
+        return text, audio_data, tokenized
+
+
+class ScoringFreeSpeechView(ScoringSpeechView):
+    form_class = ScoringFreeSpeechForm
+
+    def get_scorer_method(self, request):
+        scorer = self.get_scorer(request)
+        return scorer.score_free_speech
+
+
 scoring_text_speech = ScoringTextSpeechView.as_view()
+scoring_free_speech = ScoringFreeSpeechView.as_view()

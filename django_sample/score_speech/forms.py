@@ -25,9 +25,16 @@ from django import forms
 MAX_USER_AUDIO_FILE_SIZE = 60 * 16000 * 2
 
 
-class ScoringTextSpeechForm(forms.Form):
+class ScoringSpeechForm(forms.Form):
     audio_data = forms.FileField(
         required=True,
         max_length=MAX_USER_AUDIO_FILE_SIZE,
         allow_empty_file=False)
+
+
+class ScoringTextSpeechForm(ScoringSpeechForm):
     text = forms.CharField(required=True, widget=forms.Textarea())
+
+
+class ScoringFreeSpeechForm(ScoringSpeechForm):
+    pass

@@ -88,13 +88,14 @@ def process_word_score_list(word_score_list):
     return words, syllables, phonemes, overall_score
 
 
-def process_row_scoring_result(row_result):
+def process_row_scoring_result(row_result, score_type):
     status = None
     result = {}
     score_overall_metrics = {}
     segment_metrics_list = []
     word_score_list = []
     fidelity_class = None
+    text = ''
 
     if 'status' in row_result:
         status = row_result['status']
@@ -106,26 +107,30 @@ def process_row_scoring_result(row_result):
         return 400, result
 
     # getting metrics from SpeechAce scoring API response
-    if 'text_score' in row_result:
-        text_score = row_result['text_score'] if type(row_result['text_score']) == dict else {}
+    if score_type in row_result:
+        score = row_result[score_type] if type(row_result[score_type]) == dict else {}
 
-        if 'fluency' in text_score:
-            fluency = text_score['fluency'] if type(text_score['fluency']) == dict else {}
+        if 'fluency' in score:
+            fluency = score['fluency'] if type(score['fluency']) == dict else {}
             # try to get overall metrics
             if 'overall_metrics' in fluency:
-                score_overall_metrics = fluency['overall_metrics'] if type(text_score['fluency']) == dict else {}
+                score_overall_metrics = fluency['overall_metrics'] if type(score['fluency']) == dict else {}
             # try to get score result by sentences
             if 'segment_metrics_list' in fluency:
                 segment_metrics_list = fluency['segment_metrics_list'] \
                     if type(fluency['segment_metrics_list']) == list else []
 
         # try to get score result by words
-        if 'word_score_list' in text_score:
-            word_score_list = text_score['word_score_list'] if type(text_score['word_score_list'] == list) else []
+        if 'word_score_list' in score:
+            word_score_list = score['word_score_list'] if type(score['word_score_list'] == list) else []
 
         # try to get fidelity_class
-        if 'fidelity_class' in text_score:
-            fidelity_class = text_score['fidelity_class']
+        if 'fidelity_class' in score:
+            fidelity_class = score['fidelity_class']
+
+        # try to get transcription for speech mode on
+        if score_type == 'speech_score' and 'transcript' in score:
+            text = score['transcript']
 
     # process score_overall_metrics to get overall metrics
     overall_metrics = process_score_overall_metrics(score_overall_metrics)
@@ -150,6 +155,8 @@ def process_row_scoring_result(row_result):
         'syllables': syllables,
         'phonemes': phonemes
     }
+    if score_type == 'speech_score' and text:
+        result['transcript'] = text
 
     return 200, result
 
@@ -169,30 +176,45 @@ class Scorer(object):
         return headers
 
     def _format_url(self, request_type, output_format):
-        version = 'v0.5' if request_type == 'scoring/text' else 'v0.1'
+        version = 'v0.5' if request_type in ['scoring/text', 'scoring/speech'] else 'v0.1'
         relative_url = "/api/%s/%s/%s?key=%s&user_id=%s&dialect=en-us" % (request_type, version, output_format,
                                                                           self.api_key, self.api_user_id,)
         return self.api_root_url + relative_url
 
     @staticmethod
-    def post_process_score(response):
+    def post_process_score(response, request_type='scoring/text'):
         status_code = response.status_code
         if status_code != 200:
             result = {'errors', 'Couldn\'t understand the audio.'}
         else:
             row_result = json.loads(response.text)
-            status_code, result = process_row_scoring_result(row_result)
+            score_type = 'text_score'
+            if request_type == 'scoring/speech':
+                score_type = 'speech_score'
+            status_code, result = process_row_scoring_result(row_result, score_type)
         return status_code, result
+
+    def get_score_speech(self, payload, audio_data, question_info, request_type='scoring/text'):
+        if question_info is not None:
+            payload['question_info'] = question_info
+        files = {'user_audio_file': ('user_audio', audio_data)}
+        url = self._format_url(request_type=request_type, output_format='json')
+        headers = self._get_headers()
+        response = requests.post(url, data=payload, files=files, headers=headers)
+        return response
 
     def score_text_speech(self, text, audio_data, tokenized, question_info=None):
         payload = {
             'text': text,
             'include_fluency': self.api_include_fluency,
         }
-        if question_info is not None:
-            payload['question_info'] = question_info
-        files = {'user_audio_file': ('user_audio', audio_data)}
-        url = self._format_url(request_type='scoring/text', output_format='json')
-        headers = self._get_headers()
-        response = requests.post(url, data=payload, files=files, headers=headers)
+        response = self.get_score_speech(payload, audio_data, question_info)
         return self.post_process_score(response)
+
+    def score_free_speech(self, audio_data, tokenized, question_info=None):
+        request_type = 'scoring/speech'
+        payload = {
+            'include_fluency': self.api_include_fluency,
+        }
+        response = self.get_score_speech(payload, audio_data, question_info, request_type=request_type)
+        return self.post_process_score(response, request_type=request_type)
