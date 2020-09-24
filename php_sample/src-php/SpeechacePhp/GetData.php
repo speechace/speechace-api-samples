@@ -4,15 +4,17 @@ namespace SpeechacePhp;
 
 class GetData {
 
-    private $endpoint = "https://api.speechace.co/api/scoring/text/v0.5/json";
+    private $base_endpoint = "https://api.speechace.co/api/scoring/";
+    private $api_version = "v0.5";
     private $apikey = "<TYPE YOUR API KEY HERE>";
     public $userId = "sptest";
     public $includeFluency = 0;
     public $text, $file;
 
-    public function __construct($text, $file) {
+    public function __construct($text, $file, $request_type) {
         $this->text = $text;
         $this->file = $file;
+        $this->request_type = $request_type;
     }
 
     /**
@@ -27,7 +29,9 @@ class GetData {
      */
     public function getResult(){
 	    $ch = curl_init(
-		    $this->endpoint.
+		    $this->base_endpoint.
+		    $this->request_type."/".
+		    $this->api_version."/json".
 		    "?key=".$this->apikey.
 		    "&user_id=".$this->userId.
 		    "&dialect="."en-us"
@@ -48,15 +52,19 @@ class GetData {
      * @return array
      */
     protected function curlOptions(){
+        $fields = array(
+            "user_audio_file" => curl_file_create($this->file["tmp_name"]),
+            "user_id" => $this->userId,
+            "include_fluency" => $this->includeFluency,
+        );
+        if ($this->text) {
+            $fields["text"] = $this->text;
+        }
+
         return array(
             CURLOPT_POST => 1,
             CURLOPT_HTTPHEADER => array("Content-Type:multipart/form-data"),
-            CURLOPT_POSTFIELDS => array(
-                "text" => $this->text,
-                "user_audio_file" => curl_file_create($this->file["tmp_name"]),
-                "user_id" => $this->userId,
-                "include_fluency" => $this->includeFluency,
-            ),
+            CURLOPT_POSTFIELDS => $fields,
             CURLOPT_RETURNTRANSFER => true
         );
     }
