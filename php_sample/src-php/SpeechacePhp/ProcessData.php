@@ -28,9 +28,9 @@ class ProcessData extends GetData {
      * @param $text
      * @param $file
      */
-    public function __construct($text, $file)
+    public function __construct($text, $file, $request_type)
     {
-        parent::__construct($text, $file);
+        parent::__construct($text, $file, $request_type);
         $this->results = json_decode($this->getResult(), true);
     }
 
@@ -64,7 +64,7 @@ class ProcessData extends GetData {
      * @return array
      */
     private function getSummary(){
-        $overallMetricsData = $this->results["text_score"]["fluency"]["overall_metrics"];
+        $overallMetricsData = $this->results[$this->request_type."_score"]["fluency"]["overall_metrics"];
         $overall_metrics["audio_length"] = $overallMetricsData["duration"];
         $overall_metrics["ielts_score"] = $overallMetricsData["ielts_estimate"];
         $overall_metrics["mlr"] = $overallMetricsData["mean_length_run"];
@@ -84,7 +84,7 @@ class ProcessData extends GetData {
         $phonemes = [];
         $syllables = [];
 
-        $words = $this->results["text_score"]["word_score_list"];
+        $words = $this->results[$this->request_type."_score"]["word_score_list"];
         $word_count = 0;
         $word_total_score = 0;
         $syllable_count = 0;
@@ -143,7 +143,11 @@ class ProcessData extends GetData {
             $summary["phone_count"] = $phone_count;
         }
 
-        return array("overall_metrics" => $summary, "detailed" => $detailed, "overall_score" => (string)$overall_score, "fidelity_class" => $this->results["text_score"]["fidelity_class"]);
+        $processed_result = array("overall_metrics" => $summary, "detailed" => $detailed, "overall_score" => (string)$overall_score, "fidelity_class" => $this->results[$this->request_type."_score"]["fidelity_class"]);
+        if ($this->request_type == 'speech'){
+            $processed_result['transcript'] = $this->results[$this->request_type."_score"]["transcript"];
+        }
+        return $processed_result;
     }
 
     /**
