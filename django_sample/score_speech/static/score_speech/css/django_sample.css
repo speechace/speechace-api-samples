@@ -228,7 +228,7 @@ h2 {
 }
 
 .score-metrics {
-  text-align: center;
+  text-align: left;
 }
 
 .summary-player {
@@ -249,6 +249,7 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 50px;
 }
 
 table {

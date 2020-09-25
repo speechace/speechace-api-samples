@@ -69,7 +69,13 @@ function SummaryExplanationView(props) {
         infoList.push("MLR " + props.overall_metrics.mlr.toFixed(2));
     }
     if (props.fidelity_class) {
-        infoList.push("Fidelity " + props.fidelity_class.split('_').join(' ').toLowerCase());
+        infoList.push(
+            "Fidelity " +
+                props.fidelity_class
+                    .split("_")
+                    .join(" ")
+                    .toLowerCase()
+        );
     }
     return <div className="summary-explanation">{infoList.join(" | ")}</div>;
 }
@@ -97,111 +103,119 @@ class SampleScoringResultView extends React.Component {
     };
 
     render() {
-        let { overall_score, overall_metrics, detailed, fidelity_class } = this.props;
-            return (
-                <div>
-                    <h2>Summary</h2>
-                    <div className="summary">
-                        <div className="summary-player">
-                            <div>{this.renderPlayback("main", null, 60)}</div>
-                        </div>
-                        <div>
-                            <SummaryMetricsView
-                                {...{ overall_score, overall_metrics }}
-                            />
-                            <SummaryExplanationView {...{ overall_metrics, fidelity_class }} />
-                        </div>
+        let {
+            overall_score,
+            overall_metrics,
+            detailed,
+            fidelity_class,
+            speechMode
+        } = this.props;
+        return (
+            <div>
+                {!speechMode && <h2>Summary</h2>}
+                <div className="summary">
+                    <div className="summary-player">
+                        <div>{this.renderPlayback("main", null, 60)}</div>
                     </div>
-                    <h2>Detailed score breakup</h2>
-                    <div className="tables">
-                        <div className="tables-blocks">
-                            <table className="tables-blocks__word">
-                                <tbody>
-                                    <tr>
-                                        <th />
-                                        <th>Word</th>
-                                        <th>Score</th>
-                                    </tr>
-                                    {detailed.words.map(
-                                        function(word, index) {
-                                            let playbackViewWrapper = null;
-                                            if (word.quality_score) {
-                                                playbackViewWrapper = (
-                                                    <div className="word-play-back-button">
-                                                        {this.renderPlayback(
-                                                            "word-" + index,
-                                                            word,
-                                                            26
-                                                        )}
-                                                    </div>
-                                                );
-                                            }
-                                            return (
-                                                <tr key={index}>
-                                                    <td>{playbackViewWrapper}</td>
-                                                    <td>{word.word}</td>
-                                                    <td>{word.quality_score}%</td>
-                                                </tr>
-                                            );
-                                        }.bind(this)
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="tables-blocks">
-                            <table className="tables-blocks__syllable">
-                                <tbody>
-                                    <tr>
-                                        <th>Syllable</th>
-                                        <th>Score</th>
-                                    </tr>
-                                    {detailed.syllables.map(
-                                        function(syllable, index) {
-                                            return (
-                                                <tr key={index}>
-                                                    <td>{syllable.letters}</td>
-                                                    <td>
-                                                        {syllable.quality_score}%
-                                                    </td>
-                                                </tr>
-                                            );
-                                        }.bind(this)
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="tables-blocks">
-                            <table className="tables-blocks__phoneme with-average">
-                                <tbody>
-                                    <tr>
-                                        <th>Phoneme</th>
-                                        <th>Score</th>
-                                    </tr>
-                                    {detailed.phonemes.map(
-                                        function(phone, index) {
-                                            return (
-                                                <tr key={index}>
-                                                    <td>{phone.phone}</td>
-                                                    <td>
-                                                        {(+phone.quality_score).toFixed(
-                                                            2
-                                                        )}
-                                                        %
-                                                    </td>
-                                                </tr>
-                                            );
-                                        }.bind(this)
-                                    )}
-                                    <tr>
-                                        <td>Average score</td>
-                                        <td>{overall_score}%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div>
+                        <SummaryMetricsView
+                            {...{ overall_score, overall_metrics }}
+                        />
+                        <SummaryExplanationView
+                            {...{ overall_metrics, fidelity_class }}
+                        />
                     </div>
                 </div>
-            );
+                <h2>Detailed score breakup</h2>
+                <div className="tables">
+                    <div className="tables-blocks">
+                        <table className="tables-blocks__word">
+                            <tbody>
+                                <tr>
+                                    <th />
+                                    <th>Word</th>
+                                    <th>Score</th>
+                                </tr>
+                                {detailed.words.map(
+                                    function(word, index) {
+                                        let playbackViewWrapper = null;
+                                        if (word.quality_score) {
+                                            playbackViewWrapper = (
+                                                <div className="word-play-back-button">
+                                                    {this.renderPlayback(
+                                                        "word-" + index,
+                                                        word,
+                                                        26
+                                                    )}
+                                                </div>
+                                            );
+                                        }
+                                        return (
+                                            <tr key={index}>
+                                                <td>{playbackViewWrapper}</td>
+                                                <td>{word.word}</td>
+                                                <td>{word.quality_score}%</td>
+                                            </tr>
+                                        );
+                                    }.bind(this)
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="tables-blocks">
+                        <table className="tables-blocks__syllable">
+                            <tbody>
+                                <tr>
+                                    <th>Syllable</th>
+                                    <th>Score</th>
+                                </tr>
+                                {detailed.syllables.map(
+                                    function(syllable, index) {
+                                        return (
+                                            <tr key={index}>
+                                                <td>{syllable.letters}</td>
+                                                <td>
+                                                    {syllable.quality_score}%
+                                                </td>
+                                            </tr>
+                                        );
+                                    }.bind(this)
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="tables-blocks">
+                        <table className="tables-blocks__phoneme with-average">
+                            <tbody>
+                                <tr>
+                                    <th>Phoneme</th>
+                                    <th>Score</th>
+                                </tr>
+                                {detailed.phonemes.map(
+                                    function(phone, index) {
+                                        return (
+                                            <tr key={index}>
+                                                <td>{phone.phone}</td>
+                                                <td>
+                                                    {(+phone.quality_score).toFixed(
+                                                        2
+                                                    )}
+                                                    %
+                                                </td>
+                                            </tr>
+                                        );
+                                    }.bind(this)
+                                )}
+                                <tr>
+                                    <td>Average score</td>
+                                    <td>{overall_score}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     renderPlayback(keyPrefix, keyInfo, size) {
