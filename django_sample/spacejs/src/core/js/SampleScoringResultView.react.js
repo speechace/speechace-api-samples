@@ -107,10 +107,16 @@ class SampleScoringResultView extends React.Component {
     };
 
     render() {
-        let { overall_score, overall_metrics, detailed, fidelity_class } = this.props;
+        let {
+            overall_score,
+            overall_metrics,
+            detailed,
+            fidelity_class,
+            speechMode
+        } = this.props;
         return (
             <div>
-                <h2>Summary</h2>
+                {!speechMode && <h2>Summary</h2>}
                 <div className="summary">
                     <div className="summary-player">
                         <div>{this.renderPlayback("main", null, 60)}</div>
@@ -119,7 +125,9 @@ class SampleScoringResultView extends React.Component {
                         <SummaryMetricsView
                             {...{ overall_score, overall_metrics }}
                         />
-                        <SummaryExplanationView {...{ overall_metrics, fidelity_class }} />
+                        <SummaryExplanationView
+                            {...{ overall_metrics, fidelity_class }}
+                        />
                     </div>
                 </div>
                 <h2>Detailed score breakup</h2>

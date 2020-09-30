@@ -18,14 +18,14 @@
 */
 "use strict";
 
-import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-
-import SampleSpinnerView from "./SampleSpinnerView.react";
-import SampleScoringResultView from "./SampleScoringResultView.react";
-import MicrophoneView from "./MicrophoneView.react";
-import { extractErrorMessages, createScoringError } from "./Errors";
+import React from "react";
 import ClientAudioAPI from "./ClientAudioAPI";
+import { createScoringError, extractErrorMessages } from "./Errors";
+import MicrophoneView from "./MicrophoneView.react";
+import SampleScoringResultView from "./SampleScoringResultView.react";
+import SampleSpinnerView from "./SampleSpinnerView.react";
+import "./switcher.css";
 
 const REQUEST_NOT_STARTED = "NOT_STARTED";
 const REQUEST_PENDING = "PENDING";
@@ -40,7 +40,7 @@ class SampleViewController extends React.Component {
     };
 
     static defaultProps = {
-        maximumDuration: 30,
+        maximumDuration: 40,
         recorderWorkerPath: null,
         scoreTextSpeechPath: null
     };
@@ -48,6 +48,8 @@ class SampleViewController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            speechMode: false,
+            isSpeechModeData: null,
             scoreText: "",
             errorMessage: "",
             fileInputName: "",
@@ -63,6 +65,110 @@ class SampleViewController extends React.Component {
             }
         };
         this.fileInput = React.createRef();
+    }
+
+    changeSpeechMode() {
+        const sScoring = {
+            requestStatus: REQUEST_NOT_STARTED,
+            data: null
+        };
+
+        this.setState({
+            speechMode: !this.state.speechMode,
+            value: "",
+            sScoring,
+            errorMessage: null,
+            isSpeechModeData: null,
+            audioBlob: null,
+            fileInputName: ""
+        });
+        this.fileInput.current.value = ''
+    }
+
+    renderSpeechModeBlock = () => {
+        const styles = {
+            wrapper: {
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                borderTop: "1px solid rgb(230, 230, 230)",
+                padding: "20px",
+                boxSizing: "border-box"
+            },
+            h2: { margin: 0 },
+            pDiv: {
+                width: "100%",
+                margin: "20px 0 5px"
+            },
+            p: {
+                color: "#818181",
+                padding: "0 10px"
+            },
+            content: {
+                fontSize: "18px",
+                overflow: "auto",
+                width: "100%",
+                height: "100%",
+                border: "1px solid #e6e6e6",
+                padding: "10px",
+                minHeight: "100px"
+            }
+        };
+
+        const { isSpeechModeData, sScoring } = this.state;
+
+        if (sScoring.requestStatus === REQUEST_PENDING) {
+            return <span>Please, wait...</span>;
+        } else {
+            if (isSpeechModeData) {
+                if (!!sScoring?.data?.detailed?.words) {
+                    const answer = this.formatAnswer();
+
+                    return (
+                        <div style={styles.wrapper}>
+                            <div>
+                                <h2 style={styles.h2}>EVALUATION SUMMARY</h2>
+                            </div>
+                            <div style={styles.pDiv}>
+                                <p style={styles.p}>Transcript</p>
+                            </div>
+                            <div style={styles.content}>{answer}</div>
+                        </div>
+                    );
+                }
+
+                return <span />;
+            }
+        }
+    };
+
+    formatAnswer() {
+        try {
+            const words = this.state.sScoring.data.detailed.words;
+            let wordKey = 0;
+
+            return words.map(word => {
+                ++wordKey;
+
+                let cssColor = "#da2150";
+                if (word.quality_score >= 80) {
+                    cssColor = "#7db52d";
+                }
+                if (word.quality_score >= 60 && word.quality_score < 80) {
+                    cssColor = "#ffc614";
+                }
+
+                return (
+                    <span key={wordKey} style={{ color: cssColor }}>
+                        {word.word}{" "}
+                    </span>
+                );
+            });
+        } catch (error) {
+            console.error(error);
+            return <span>Ops... Something went wrong.</span>;
+        }
     }
 
     render() {
@@ -81,10 +187,16 @@ class SampleViewController extends React.Component {
             } = this.state.sScoring.data;
             resultView = (
                 <SampleScoringResultView
+                    speechMode={this.state.speechMode}
                     notifyPlayClick={this.handlePlayClick.bind(this)}
                     audioBlob={this.state.audioBlob}
                     sPlaybackMap={this.state.sPlaybackMap}
-                    {...{ overall_metrics, overall_score, detailed, fidelity_class }}
+                    {...{
+                        overall_metrics,
+                        overall_score,
+                        detailed,
+                        fidelity_class
+                    }}
                 />
             );
         }
@@ -95,7 +207,29 @@ class SampleViewController extends React.Component {
                 <form
                     className="form flex"
                     onSubmit={this.handleSubmit.bind(this)}>
-                    <div className="form-control textarea">
+                    <div className="switch-box">
+                        <p>
+                            Speech mode{" "}
+                            {this.state.speechMode ? (
+                                <strong>On</strong>
+                            ) : (
+                                <strong>Off</strong>
+                            )}
+                        </p>
+                        <label className="switch">
+                            <input
+                                type="checkbox"
+                                checked={this.state.speechMode}
+                                onChange={() => {}}
+                            />
+                            <span
+                                className="slider round"
+                                onClick={this.changeSpeechMode.bind(this)}
+                            />
+                        </label>
+                    </div>
+
+                    {!this.state.speechMode && (
                         <div className="form-control textarea">
                             <textarea
                                 value={this.state.value}
@@ -108,8 +242,15 @@ class SampleViewController extends React.Component {
                             />
                             <p className="tooltip">{this.state.errorMessage}</p>
                         </div>
-                    </div>
-                    <div className="form-control recorder">
+                    )}
+
+                    <div
+                        className="form-control recorder"
+                        style={
+                            this.state.speechMode
+                                ? { margin: "10px 20px 10px 20px" }
+                                : {}
+                        }>
                         <div>
                             <MicrophoneView
                                 size={120}
@@ -145,16 +286,57 @@ class SampleViewController extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="form-explanation">
-                        Record or upload an audio file{" "}
-                        <span className="audio-duration-alert">
-                            (no longer than {this.props.maximumDuration} sec)
-                        </span>{" "}
-                        containing the sentence or paragraph
-                    </div>
-                    <button className="btn submit-btn" type="submit">
-                        Check score
-                    </button>
+
+                    {this.state.speechMode && (
+                        <div
+                            style={{
+                                display: "flex",
+                                width: "100%",
+                                justifyContent: "center",
+                                marginBottom: "30px"
+                            }}>
+                            <span>
+                                Record or upload up to{" "}
+                                {this.props.maximumDuration} seconds of
+                                audio/video
+                            </span>
+                        </div>
+                    )}
+
+                    {this.state.speechMode && (
+                        <div
+                            className="form-control textarea"
+                            style={{ height: "auto" }}>
+                            {this.renderSpeechModeBlock()}
+                            {this.state.errorMessage && (
+                                <p className="tooltip">
+                                    {this.state.errorMessage}
+                                </p>
+                            )}
+                        </div>
+                    )}
+
+                    {!this.state.speechMode && (
+                        <React.Fragment>
+                            <div className="form-explanation">
+                                Record or upload an audio file{" "}
+                                <span className="audio-duration-alert">
+                                    (no longer than {this.props.maximumDuration}{" "}
+                                    sec)
+                                </span>{" "}
+                                containing the sentence or paragraph
+                            </div>
+                            <button
+                                className="btn submit-btn"
+                                type="submit"
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center"
+                                }}>
+                                Check score
+                            </button>
+                        </React.Fragment>
+                    )}
                 </form>
 
                 {spinnerView}
@@ -165,12 +347,22 @@ class SampleViewController extends React.Component {
     }
 
     handleScoreTextChange(event) {
-        this.setState({ scoreText: event.target.value });
+        this.setState({
+            scoreText: event.target.value,
+            value: event.target.value
+        });
     }
 
     handleFileInputChange() {
         let audioBlob = this.fileInput.current.files[0];
         if (audioBlob) {
+            if (this.state.speechMode) {
+                this.setState({
+                    value: "",
+                    scoreText: "",
+                    errorMessage: ""
+                });
+            }
             ClientAudioAPI.getAudioDuration(
                 audioBlob,
                 null,
@@ -244,7 +436,10 @@ class SampleViewController extends React.Component {
             !this.state.audioBlob
         ) {
             return "Please record or upload an audio file containing and add the needed text";
-        } else if (!this.fixupScoreText(this.state.scoreText)) {
+        } else if (
+            !this.fixupScoreText(this.state.scoreText) &&
+            !this.state.speechMode
+        ) {
             return "Please add text";
         } else if (!this.state.audioBlob) {
             return "Please record or upload an audio file containing the sentence or paragraph";
@@ -255,12 +450,19 @@ class SampleViewController extends React.Component {
 
     score() {
         let formData = new FormData();
-        formData.append("text", this.fixupScoreText(this.state.scoreText));
+
+        if (this.state.speechMode) {
+            formData.append("speech", true);
+        } else {
+            formData.append("text", this.fixupScoreText(this.state.scoreText));
+        }
         formData.append("audio_data", this.state.audioBlob);
+
         let sScoring = {
             requestStatus: REQUEST_PENDING,
             data: null
         };
+
         this.setState({ sScoring });
 
         $.ajax({
@@ -276,6 +478,10 @@ class SampleViewController extends React.Component {
                     data: data
                 };
                 this.setState({ sScoring });
+
+                if (this.state.speechMode) {
+                    this.setState({ isSpeechModeData: true });
+                }
             }.bind(this),
             error: function(xhr, status, error) {
                 let sScoring = {
@@ -300,6 +506,18 @@ class SampleViewController extends React.Component {
     }
 
     startRecording() {
+        if (this.state.speechMode) {
+            this.setState({
+                value: "",
+                scoreText: "",
+                errorMessage: "",
+                isSpeechModeData: null
+            });
+        } else {
+            if (!this.state.scoreText) {
+                return false;
+            }
+        }
         ClientAudioAPI.startRecording(
             { workerPath: this.props.recorderWorkerPath },
             function(recordingStream) {
