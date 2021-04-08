@@ -1,6 +1,6 @@
 certifi==2019.3.9
 chardet==3.0.4
-Django==2.2.8
+Django==2.2.20
 django-webpack-loader==0.6.0
 idna==2.8
 pytz==2018.9
