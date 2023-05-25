@@ -1,3 +1,8 @@
+# Ignore basic sample's node_modules and package-lock.json
+basic_samples/**/node_modules/
+
+basic_samples/package-lock.json
+
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
 # Byte-compiled / optimized / DLL files
