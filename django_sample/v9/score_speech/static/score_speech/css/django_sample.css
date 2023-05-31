@@ -1,0 +1,551 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Raleway, sans-serif;
+  box-sizing: border-box;
+}
+
+main {
+  max-width: 756px;
+  margin: auto;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.form-control {
+  height: 5rem;
+  width: 320px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+h2 {
+  width: 100%;
+  text-align: center;
+  margin: 40px 0 20px 0;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000000;
+}
+
+.textarea {
+  width: 100%;
+  height: 99px;
+  flex-wrap: wrap;
+}
+
+.textarea textarea {
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  font-size: 14px;
+  border: solid 1px #e0e0e0;
+  background-color: #ffffff;
+  color: #000;
+}
+
+.tooltip {
+  text-align: left;
+  font-size: 14px;
+  color: #da2150;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.textarea:hover textarea {
+  border: solid 1px #1ccff6;
+}
+
+.textarea-custom {
+  min-width: 30%;
+  min-height: 50px;
+  max-height: 140px;
+}
+
+/*Buttons*/
+
+.btn {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 32px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  width: 160px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #ffffff;
+  background-color: #7db52d;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #1ccff6;
+}
+
+/*Upload file*/
+
+.recorder {
+  margin: 40px 20px 20px 20px;
+}
+
+.form-control-recorder,
+.summary-player__button {
+  height: 72px;
+  width: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  border: 2px solid #1ccff6;
+  cursor: pointer;
+  color: #1ccff6;
+  font-size: 30px;
+}
+
+.form-control-recorder:hover {
+  background-color: #1ccff6;
+}
+
+.form-control-recorder:hover svg path {
+  fill: #ffffff;
+}
+
+.file-name-container {
+  position: relative;
+}
+
+.file-name-container .file-name {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 192px;
+}
+
+.form-explanation {
+  width: 100%;
+  height: 14px;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000000;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+.label-container {
+  display: flex;
+}
+
+.form-control-file-upload {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  font-size: 1em;
+  line-height: 2em;
+}
+
+.form-control-file-upload .btn {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  text-align: center;
+  border-radius: 32px;
+  border: solid 1px #1ccff6;
+  background-color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #1ccff6;
+  justify-content: flex-start;
+}
+
+.form-control-file-upload:hover .btn {
+  background-color: #1ccff6;
+  color: #ffffff;
+}
+
+.form-control-file-upload .btn .far {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-control-file-upload:hover .btn .far {
+  color: #ffffff;
+}
+
+.form-control-file-upload .btn span {
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.form-control-file-upload input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 160px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.summary {
+  display: flex;
+  margin-bottom: 60px;
+}
+
+.summary-explanation {
+  margin: 20px 0 20px 20px;
+  font-size: 16px;
+}
+
+.score-metrics {
+  text-align: left;
+}
+
+.summary-player {
+  margin: 20px;
+}
+
+/*Spinner*/
+
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 50px;
+}
+
+/*Tables*/
+
+.tables {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tables-blocks {
+  width: 240px;
+  box-sizing: border-box;
+  margin: 0 6px;
+}
+
+td,
+th {
+  border: 1px solid #00abe1;
+  height: 36px;
+  width: 50%;
+  text-align: center;
+  font-size: 14px;
+}
+
+th {
+  background-color: #00abe1;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+td {
+  height: 40px;
+}
+
+.tables-blocks__word td:first-child,
+.tables-blocks__word th:first-child {
+  border-top: none;
+  border-left: none;
+  border-bottom: none;
+  border-right: 1px solid #00abe1;
+  width: 20%;
+  background-color: transparent;
+}
+
+.tables-blocks__word th:nth-child(2),
+.tables-blocks__word td:nth-child(2) {
+  border-right: none;
+}
+
+.tables-blocks__word th:nth-child(3),
+.tables-blocks__word td:nth-child(3) {
+  border-left: none;
+}
+
+.tables-blocks__word td,
+.tables-blocks__word th {
+  border: 1px solid #00abe1;
+  width: 40%;
+  text-align: center;
+}
+
+.with-average tr:last-child {
+  font-weight: 700;
+}
+
+.tables-blocks__word .player {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+}
+
+.player-button {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #1ccff6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 30px;
+  cursor: pointer;
+  color: #1ccff6;
+  font-size: 12px;
+}
+
+.player-button:hover,
+.summary-player__button:hover {
+  background-color: #1ccff6;
+  color: #ffffff;
+}
+
+.summary-player__button .fas {
+  font-size: 30px;
+}
+
+.tables-blocks__syllable th:first-child,
+.tables-blocks__syllable td:first-child,
+.tables-blocks__phoneme th:first-child,
+.tables-blocks__phoneme td:first-child {
+  border-right: none;
+  width: 60%;
+}
+
+.tables-blocks__syllable th:nth-child(2),
+.tables-blocks__syllable td:nth-child(2),
+.tables-blocks__phoneme th:nth-child(2),
+.tables-blocks__phoneme td:nth-child(2) {
+  border-left: none;
+  width: 40%;
+}
+
+.audio-duration-alert {
+  color: rgb(28, 207, 246);
+  font-weight: 600;
+}
+
+.microphone-svg-container {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.microphone-svg-container .main-svg {
+  width: 75px;
+  height: 75px;
+}
+
+.microphone-svg-container .default-circle {
+  fill: rgb(255, 255, 255);
+  stroke-width: 2;
+  stroke: rgb(28, 207, 246);
+}
+
+.microphone-svg-container:hover .default-circle {
+  fill: rgb(28, 207, 246);
+}
+
+.microphone-svg-container .default-rect {
+  fill: rgb(28, 207, 246);
+}
+
+.microphone-svg-container:hover .default-rect {
+  fill: rgb(255, 255, 255);
+}
+
+.microphone-svg-container .default-path {
+  fill: none;
+  stroke-width: 2;
+  stroke: rgb(28, 207, 246);
+}
+
+.microphone-svg-container:hover .default-path {
+  stroke: rgb(255, 255, 255);
+}
+
+.microphone-svg-container .default-line {
+  fill: none;
+  stroke-width: 2;
+  stroke: rgb(28, 207, 246);
+}
+
+.microphone-svg-container:hover .default-line {
+  stroke: rgb(255, 255, 255);
+}
+
+.animation-circle {
+  fill: rgb(187, 187, 187);
+  display: none;
+}
+
+.microphone-svg-container .record-circle {
+  fill: rgb(28, 207, 246);
+  display: none;
+}
+
+.microphone-svg-container .record-rect {
+  fill: rgb(255, 255, 255);
+  display: none;
+}
+
+.microphone-svg-container .record-text {
+  fill: rgb(255, 255, 255);
+  font-size: 20px;
+  font-weight: 600;
+  display: none;
+  text-anchor: middle;
+  alignment-baseline: central;
+}
+
+.microphone-svg-container .record-progress-circle {
+  stroke-dasharray: 207.3451;
+  stroke: rgb(255, 255, 255);
+  stroke-width: 2;
+  display: none;
+}
+
+.speech-play-back-container {
+  width: 75px;
+  height: 75px;
+  cursor: pointer;
+}
+
+.speech-play-back-container .default-circle {
+  fill: rgb(255, 255, 255);
+  stroke-width: 2;
+  stroke: rgb(28, 207, 246);
+}
+
+.speech-play-back-container:hover .default-circle {
+  fill: rgb(28, 207, 246);
+}
+
+.speech-play-back-container .default-triangle {
+  stroke: rgb(28, 207, 246);
+  stroke-width: 1;
+  fill: rgb(28, 207, 246);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.speech-play-back-container:hover .default-triangle {
+  stroke: rgb(255, 255, 255);
+  fill: rgb(255, 255, 255);
+}
+
+.speech-play-back-container .play-circle {
+  fill: rgb(28, 207, 246);
+  display: none;
+}
+
+.speech-play-back-container .play-rect {
+  stroke: rgb(255, 255, 255);
+  stroke-width: 1;
+  fill: rgb(255, 255, 255);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: none;
+}
+
+.speech-play-back-container .play-progress-circle {
+  stroke-dasharray: 207.3451;
+  stroke: rgb(255, 255, 255);
+  stroke-width: 2;
+  display: none;
+}
+
+.word-play-back-container {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.word-play-back-container .default-circle {
+  fill: rgb(255, 255, 255);
+  stroke-width: 2;
+  stroke: rgb(28, 207, 246);
+}
+
+.word-play-back-container:hover .default-circle {
+  fill: rgb(28, 207, 246);
+}
+
+.word-play-back-container .default-triangle {
+  stroke: rgb(28, 207, 246);
+  stroke-width: 1;
+  fill: rgb(28, 207, 246);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.word-play-back-container:hover .default-triangle {
+  stroke: rgb(255, 255, 255);
+  fill: rgb(255, 255, 255);
+}
+
+.word-play-back-container .play-circle {
+  fill: rgb(28, 207, 246);
+  display: none;
+}
+
+.word-play-back-container .play-rect {
+  stroke: rgb(255, 255, 255);
+  stroke-width: 1;
+  fill: rgb(255, 255, 255);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: none;
+}
+
+.word-play-back-container .play-progress-circle {
+  stroke-dasharray: 65.9734;
+  stroke: rgb(255, 255, 255);
+  stroke-width: 2;
+  display: none;
+}
+
+.text-speech {
+  width: 100%;
+}
