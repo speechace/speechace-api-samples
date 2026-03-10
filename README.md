@@ -112,6 +112,8 @@ node server.js
 
 The UI has four tabs: **Score Text**, **Score Speech**, **Score Task**, and **Score Writing**.
 
+<img width="732" height="934" alt="localhost" src="https://github.com/user-attachments/assets/6304afed-74de-4fb5-bb3f-bbe6d1f3a322" />
+
 ## API Overview
 
 | Endpoint | Mode | Required fields |
