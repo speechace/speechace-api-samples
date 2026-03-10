@@ -118,3 +118,10 @@ django_sample/spacejs/package-lock.json
 django_sample/webpack-stats.json
 
 
+
+# Node modules
+node_modules/
+package-lock.json
+
+# Express sample env
+express_sample/.env

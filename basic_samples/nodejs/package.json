@@ -1,0 +1,20 @@
+{
+  "name": "speechace-basic-nodejs",
+  "version": "1.0.0",
+  "description": "Basic Node.js samples for the Speechace pronunciation scoring API",
+  "type": "module",
+  "scripts": {
+    "score-text": "node score_text.js",
+    "score-speech": "node score_speech.js",
+    "score-task": "node score_task.js",
+    "score-writing": "node score_writing.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "form-data": "^4.0.0",
+    "node-fetch": "^3.3.2"
+  }
+}

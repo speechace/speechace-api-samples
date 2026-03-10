@@ -1,0 +1,159 @@
+/* Speechace Express Sample */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f5f7fa;
+  color: #1a1a2e;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+header { text-align: center; margin-bottom: 2rem; }
+header h1 { font-size: 1.8rem; font-weight: 700; color: #2d6a9f; }
+header p { color: #555; margin-top: 0.4rem; font-size: 0.95rem; }
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+  padding: 2rem;
+  width: 100%;
+  max-width: 720px;
+  margin-bottom: 1.5rem;
+}
+
+.card h2 {
+  font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;
+  color: #2d6a9f; border-bottom: 1px solid #e8edf2; padding-bottom: 0.5rem;
+}
+
+.mode-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; }
+.mode-tab {
+  flex: 1; padding: 0.55rem; border: 2px solid #d0dbe8;
+  border-radius: 8px; background: #f0f4f8; cursor: pointer;
+  font-size: 0.9rem; font-weight: 500; transition: all 0.15s;
+}
+.mode-tab.active { border-color: #2d6a9f; background: #2d6a9f; color: #fff; }
+
+.field { margin-bottom: 1rem; }
+.field label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; color: #444; }
+.field input[type="text"], .field input[type="file"], .field select {
+  width: 100%; padding: 0.5rem 0.75rem;
+  border: 1px solid #d0dbe8; border-radius: 6px;
+  font-size: 0.95rem; background: #fafcff;
+}
+.field textarea {
+  width: 100%; padding: 0.5rem 0.75rem;
+  border: 1px solid #d0dbe8; border-radius: 6px;
+  font-size: 0.95rem; background: #fafcff;
+  font-family: inherit; resize: vertical; line-height: 1.5;
+}
+
+.recorder { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+
+#record-btn {
+  padding: 0.55rem 1.2rem; background: #e74c3c; color: #fff;
+  border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+}
+#record-btn:hover { background: #c0392b; }
+#record-btn.recording { background: #888; }
+
+#submit-btn {
+  padding: 0.55rem 1.4rem; background: #2d6a9f; color: #fff;
+  border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+}
+#submit-btn:hover { background: #1f4e7a; }
+#submit-btn:disabled { background: #aaa; cursor: default; }
+
+#timer { font-size: 0.85rem; color: #888; font-variant-numeric: tabular-nums; }
+
+audio#playback { display: none; width: 100%; margin-top: 0.75rem; }
+audio#playback.visible { display: block; }
+
+#results-card { display: none; }
+#results-card.visible { display: block; }
+
+.overall-row { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: #333; }
+.out-of { font-size: 0.8rem; color: #888; margin-left: 0.25rem; }
+
+.score-badge {
+  display: inline-block; padding: 0.2rem 0.65rem;
+  border-radius: 999px; font-weight: 700; font-size: 0.88rem;
+}
+.score-high { background: #d4edda; color: #155724; }
+.score-mid  { background: #fff3cd; color: #856404; }
+.score-low  { background: #f8d7da; color: #721c24; }
+
+.score-high-cell { color: #1a7d39; font-weight: 700; }
+.score-mid-cell  { color: #a06800; font-weight: 700; }
+.score-low-cell  { color: #b02a37; font-weight: 700; }
+
+.word-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-bottom: 1.4rem; }
+.word-table th {
+  text-align: left; padding: 0.4rem 0.6rem;
+  background: #f0f4f8; border-bottom: 2px solid #d0dbe8;
+  color: #2d6a9f; font-weight: 600; font-size: 0.82rem;
+}
+.word-table td { padding: 0.35rem 0.6rem; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+.word-table .col-word { white-space: nowrap; }
+.word-table .col-score { text-align: center; width: 80px; }
+.word-table .col-syllables { width: 120px; }
+.word-table .col-phones { color: #555; }
+
+.word-play-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; padding: 0;
+  border: 1.5px solid #b0c4d8; border-radius: 50%;
+  background: #fff; color: #4a7fa5; font-size: 0.6rem;
+  cursor: pointer; vertical-align: middle; margin-right: 5px;
+  transition: background 0.12s, border-color 0.12s, color 0.12s; flex-shrink: 0;
+}
+.word-play-btn:hover:not(:disabled) { background: #2d6a9f; border-color: #2d6a9f; color: #fff; }
+.word-play-btn.playing { background: #2d6a9f; border-color: #2d6a9f; color: #fff; }
+.word-play-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.phone-chip {
+  display: inline-block; padding: 0.1rem 0.4rem; border-radius: 4px;
+  font-size: 0.78rem; margin: 0.1rem 0.15rem 0.1rem 0; font-family: monospace;
+}
+.syllable-chip {
+  display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px;
+  font-size: 0.8rem; margin: 0.1rem 0.1rem 0.1rem 0; font-weight: 600; letter-spacing: 0.02em;
+}
+.syllable-chip + .syllable-chip::before { content: "\00B7"; margin-right: 0.15rem; color: #aaa; font-weight: 400; }
+
+#fluency-section { margin-top: 1.2rem; }
+#fluency-section h3 {
+  font-size: 0.9rem; font-weight: 600; color: #2d6a9f;
+  margin-bottom: 0.5rem; padding-bottom: 0.3rem; border-bottom: 1px solid #e8edf2;
+}
+.fluency-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.fluency-table td { padding: 0.3rem 0.5rem; border-bottom: 1px solid #f0f0f0; }
+.fluency-table td:first-child { color: #666; width: 60%; }
+
+.transcript-text {
+  font-size: 0.95rem; color: #333; margin-bottom: 1rem;
+  padding: 0.5rem 0.75rem; background: #f0f4f8;
+  border-left: 3px solid #2d6a9f; border-radius: 0 6px 6px 0;
+}
+
+.score-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.score-table th {
+  padding: 0.5rem 0.75rem; background: #f0f4f8;
+  border-bottom: 2px solid #d0dbe8; color: #2d6a9f;
+  font-weight: 600; font-size: 0.82rem; text-align: right;
+}
+.score-table th.col-category { text-align: left; }
+.score-table td { padding: 0.4rem 0.75rem; border-bottom: 1px solid #f0f0f0; text-align: right; }
+.score-table td.col-category { text-align: left; font-weight: 600; color: #333; text-transform: capitalize; }
+.score-table .col-speechace { font-weight: 700; }
+
+#status-msg { font-size: 0.85rem; color: #888; margin-top: 0.4rem; min-height: 1.2em; }
+#error-msg { color: #c0392b; font-size: 0.9rem; margin-top: 0.5rem; }

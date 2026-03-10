@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speechace API Scorer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header>
+  <h1>Speechace API Scorer</h1>
+  <p>Record or upload audio and get instant scores and feedback.</p>
+</header>
+
+<div class="card">
+  <h2>Scoring Mode</h2>
+
+  <div class="mode-tabs">
+    <button class="mode-tab active" data-mode="text">Score Text</button>
+    <button class="mode-tab" data-mode="speech">Score Speech</button>
+    <button class="mode-tab" data-mode="task">Score Task</button>
+    <button class="mode-tab" data-mode="writing">Score Writing</button>
+  </div>
+
+  <div id="text-field-wrap" class="field">
+    <label for="ref-text">Reference text</label>
+    <input type="text" id="ref-text" placeholder="e.g. apple" autocomplete="off" />
+  </div>
+
+  <div id="task-context-wrap" class="field" style="display:none;">
+    <label for="task-context">Image description</label>
+    <textarea id="task-context" rows="3" placeholder="Describe what is shown in the image…"></textarea>
+  </div>
+
+  <div id="writing-section" style="display:none;">
+    <div class="field">
+      <label for="writing-prompt">Prompt</label>
+      <textarea id="writing-prompt" rows="2" placeholder="e.g. Describe your favourite city"></textarea>
+    </div>
+    <div class="field">
+      <label for="writing-answer">Your answer</label>
+      <textarea id="writing-answer" rows="5" placeholder="Write your response here…"></textarea>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="dialect">Dialect</label>
+    <select id="dialect">
+      <option value="en-us">English US (en-us)</option>
+      <option value="en-gb">English UK (en-gb)</option>
+      <option value="fr-fr">French (fr-fr)</option>
+      <option value="es-es">Spanish (es-es)</option>
+    </select>
+  </div>
+
+  <div id="audio-section" class="field">
+    <label>Audio</label>
+    <div class="recorder">
+      <button id="record-btn">Record</button>
+      <span id="timer"></span>
+    </div>
+    <audio id="playback" controls></audio>
+    <p style="margin-top:0.6rem; font-size:0.85rem; color:#888;">
+      or upload a file:
+      <input type="file" id="file-input" accept="audio/*" style="margin-left:0.3rem;" />
+    </p>
+  </div>
+
+  <button id="submit-btn" disabled>Score</button>
+  <div id="status-msg"></div>
+  <div id="error-msg"></div>
+</div>
+
+<div class="card" id="results-card">
+  <h2>Results</h2>
+
+  <div id="text-results">
+    <p class="overall-row">
+      Overall:&nbsp;<span id="overall-score" class="score-badge"></span>
+      <span class="out-of">/ 100</span>
+    </p>
+    <table class="word-table" id="word-table">
+      <thead>
+        <tr>
+          <th class="col-word">Word</th>
+          <th class="col-score">Quality</th>
+          <th class="col-syllables">Syllables</th>
+          <th class="col-phones">Phones</th>
+        </tr>
+      </thead>
+      <tbody id="word-tbody"></tbody>
+    </table>
+    <div id="fluency-section">
+      <h3>Fluency</h3>
+      <table class="fluency-table">
+        <tbody id="fluency-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="speech-results">
+    <p id="transcript-row" class="transcript-text"></p>
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th class="col-category">Category</th>
+          <th>speechace_score</th>
+          <th>cefr_score</th>
+          <th>ielts_score</th>
+        </tr>
+      </thead>
+      <tbody id="score-tbody"></tbody>
+    </table>
+  </div>
+
+  <div id="task-results">
+    <p class="overall-row">
+      Task Score:&nbsp;<span id="task-score" class="score-badge"></span>
+      <span class="out-of">/ 5</span>
+    </p>
+    <p id="task-transcript" class="transcript-text"></p>
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th class="col-category">Category</th>
+          <th>speechace_score</th>
+          <th>cefr_score</th>
+          <th>ielts_score</th>
+        </tr>
+      </thead>
+      <tbody id="task-score-tbody"></tbody>
+    </table>
+  </div>
+
+  <div id="writing-results">
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th class="col-category">Category</th>
+          <th>speechace_score</th>
+          <th>cefr_score</th>
+          <th>ielts_score</th>
+        </tr>
+      </thead>
+      <tbody id="writing-score-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script src="recorder.js" type="module"></script>
+</body>
+</html>
