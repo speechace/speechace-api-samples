@@ -61,17 +61,18 @@ python score_text.py --audio ../../audio_samples/apple.wav --text "apple"
 # Speech scoring
 python score_speech.py --audio ../../audio_samples/traveltoday.wav
 
-# Task achievement scoring
+# Task achievement scoring (audio + image description)
 python score_task.py --audio ../../audio_samples/aredapple.mp3 \
-    --context "There is a red apple on a white table."
+    --context "There is a red apple on a white table and four glassess around it."
 
 # Writing quality scoring (text only, no audio)
 python score_writing.py \
     --prompt "Describe your favourite city" \
-    --answer "My city has many parks and tall buildings."
+    --answer "Tokyo is my favorite city. It's a fascinating, fast-paced metropolis that perfectly blends ancient tradition with futuristic technology, making it an incredibly unique destination. \n\nAs Japan's capital, it boasts stunning, serene temples and peaceful gardens alongside, towering, modern skyscrapers. Safety is a major highlight, allowing visitors to explore vibrant neighborhoods like Shibuya and historic spots like Asakusa without worry. The city is also renowned for its incredible culinary scene, ranging from exquisite street food to high-end dining, along with a rich, pop-culture-driven atmosphere."
 
 # Show raw JSON
-python score_text.py --audio ../../audio_samples/apple.wav --text "apple" --raw
+python score_text.py --audio ../../audio_samples/someparents.wav \
+    --text "Some parents admire famous athletes as strong role models, so they name their children after them." --raw
 ```
 
 ### 3. Node.js basic samples
@@ -88,11 +89,11 @@ node score_text.js --audio ../../audio_samples/apple.wav --text "apple"
 # Speech scoring
 node score_speech.js --audio ../../audio_samples/traveltoday.wav
 
-# Task achievement scoring
+# Task achievement scoring (audio + image description)
 node score_task.js --audio ../../audio_samples/aredapple.mp3 \
-    --context "There is a red apple on a white table."
+    --context "There is a red apple on a white table and four glassess around it."
 
-# Writing quality scoring
+# Writing quality scoring (text only, no audio)
 node score_writing.js \
     --prompt "Describe your favourite city" \
     --answer "My city has many parks and tall buildings."
