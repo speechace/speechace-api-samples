@@ -121,4 +121,4 @@ The UI has four tabs: **Score Text**, **Score Speech**, **Score Task**, and **Sc
 | `POST /api/scoring/task/v9/json` | Task achievement | `user_audio_file`, `task_context` |
 | `POST /api/scoring/writing/v9/json` | Writing quality | `prompt`, `answer` |
 
-Full documentation: [docs.speechace.com](https://api-docs.speechace.com)
+Full documentation: [api-docs.speechace.com](https://api-docs.speechace.com)
